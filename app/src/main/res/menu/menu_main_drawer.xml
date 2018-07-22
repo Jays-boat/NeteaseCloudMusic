@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:id="@+id/g1" >
+        <item android:id="@+id/i1"
+            android:title="@string/a_menu_main_drawer"
+            android:icon="@drawable/ic_coupon_menu_main_drawer"/>
+        <item android:id="@+id/i2"
+            android:title="@string/b_menu_main_drawer"
+            android:icon="@drawable/ic_coupon_menu_main_drawer"/>
+        <item android:id="@+id/i3"
+            android:title="@string/c_menu_main_drawer"
+            android:icon="@drawable/ic_coupon_menu_main_drawer"/>
+        <item android:id="@+id/i4"
+            android:title="@string/d_menu_main_drawer"
+            android:icon="@drawable/ic_coupon_menu_main_drawer"/>
+    </group>
+    <group android:id="@+id/g2" >
+        <item android:id="@+id/i5"
+            android:title="@string/e_menu_main_drawer"
+            android:icon="@drawable/ic_coupon_menu_main_drawer"/>
+        <item android:id="@+id/i6"
+            android:title="@string/f_menu_main_drawer"
+            android:icon="@drawable/ic_coupon_menu_main_drawer"/>
+    </group>
+    <group android:id="@+id/g3" >
+        <item android:id="@+id/i7"
+            android:title="@string/g_menu_main_drawer"
+            android:icon="@drawable/ic_coupon_menu_main_drawer"/>
+        <item android:id="@+id/i8"
+            android:title="@string/h_menu_main_drawer"
+            android:icon="@drawable/ic_coupon_menu_main_drawer"/>
+        <item android:id="@+id/i9"
+            android:title="@string/i_menu_main_drawer"
+            android:icon="@drawable/ic_coupon_menu_main_drawer"/>
+        <item android:id="@+id/i10"
+            android:title="@string/j_menu_main_drawer"
+            android:icon="@drawable/ic_coupon_menu_main_drawer"/>
+        <item android:id="@+id/i11"
+            android:title="@string/k_menu_main_drawer"
+            android:icon="@drawable/ic_coupon_menu_main_drawer"/>
+        <item android:id="@+id/i12"
+            android:title="@string/l_menu_main_drawer"
+            android:icon="@drawable/ic_coupon_menu_main_drawer"/>
+        <item android:id="@+id/i13"
+            android:title="@string/m_menu_main_drawer"
+            android:icon="@drawable/ic_coupon_menu_main_drawer"/>
+        <item android:id="@+id/i14"
+            android:title="@string/n_menu_main_drawer"
+            android:icon="@drawable/ic_coupon_menu_main_drawer"/>
+    </group>
+
+</menu>

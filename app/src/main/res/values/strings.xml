@@ -1,3 +1,26 @@
 <resources>
-    <string name="app_name">NeteaseCloudMusic</string>
+    <string name="app_name">网易云音乐(伪</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="skin_night_main_drawer_bottom">夜间模式</string>
+    <string name="settings_main_drawer_bottom">设置</string>
+    <string name="quit_main_drawer_bottom">退出</string>
+
+    <string name="a_menu_main_drawer">我的消息</string>
+    <string name="b_menu_main_drawer">会员中心</string>
+    <string name="c_menu_main_drawer">商城</string>
+    <string name="d_menu_main_drawer">在线听歌免流量</string>
+
+    <string name="e_menu_main_drawer">我的好友</string>
+    <string name="f_menu_main_drawer">附近的人</string>
+
+    <string name="g_menu_main_drawer">个性换肤</string>
+    <string name="h_menu_main_drawer">听歌识曲</string>
+    <string name="i_menu_main_drawer">定时停止播放</string>
+    <string name="j_menu_main_drawer">扫一扫</string>
+    <string name="k_menu_main_drawer">音乐闹钟</string>
+    <string name="l_menu_main_drawer">驾驶模式</string>
+    <string name="m_menu_main_drawer">音乐云盘</string>
+    <string name="n_menu_main_drawer">优惠劵</string>
 </resources>

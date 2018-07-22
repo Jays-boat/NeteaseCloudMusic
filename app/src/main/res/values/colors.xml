@@ -3,6 +3,24 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
     <color name="main_word">#333333</color>
     <color name="main_red">#ce3d3a</color>
+
+    <color name="imRed">#ce3d3a</color>
+    <color name="imBlack">#333333</color>
+    <color name="imBlue">#477aac</color>
+
+    <color name="normal1">#666666</color>
+    <color name="normal2">#888888</color>
+    <color name="normal3">#999999</color>
+    <color name="normal4">#b2b2b2</color>
+    <color name="normal5">#cccccc</color>
+
+    <color name="weak1">#f2f4f5</color>
+    <color name="weak2">#0d000000</color>
+    <color name="weak3">#1a000000</color>
+
+    <color name="transWelcome" >#7de4e4e4</color>
+
 </resources>
