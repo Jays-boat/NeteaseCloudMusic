@@ -52,7 +52,7 @@ class LoginActivity : AppCompatActivity() {
         btn_register.width = (0.8 * screenWidth).toInt()
         btn_register.height = (0.0613 * screenHeight).toInt()
 
-        line_left.layoutParams.width = (screenWidth - tv_hint_bottom.width) / 2 - DensityUtils.dp2px(this, 60f)
+        line_left.layoutParams.width = ((screenWidth - tv_hint_bottom.width) / 2f - DensityUtils.dp2px(this, 60f)).toInt()
         line_right.layoutParams.width = line_left.layoutParams.width
 
         ll_bottom.layoutParams.width = (0.825 * screenWidth).toInt()

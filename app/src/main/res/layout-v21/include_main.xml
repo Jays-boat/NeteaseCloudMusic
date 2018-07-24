@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/imRed"
@@ -29,13 +29,14 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_main"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"/>
 
-    <!--播放栏的占位-->
-    <View
+    <com.jayboat.music.ui.view.BottomMusicBar
+        android:id="@+id/bmb_main"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="#2effee"/>
+        android:layout_alignParentBottom="true"
+        android:background="#fcffffff"/>
 
-</LinearLayout>
+</RelativeLayout>

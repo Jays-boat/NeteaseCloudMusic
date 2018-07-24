@@ -14,14 +14,15 @@ import com.bumptech.glide.Glide
 import com.jayboat.music.App
 import com.jayboat.music.R
 import com.jayboat.music.adapter.BaseViewPagerAdapter
+import com.jayboat.music.bean.TempMusic
 import com.jayboat.music.ui.fragment.BaseFragment
 import com.jayboat.music.ui.fragment.TempFragment
+import com.jayboat.music.ui.view.BottomMusicBar
 import com.jayboat.music.utils.DensityUtils
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.include_main.*
 import kotlinx.android.synthetic.main.include_main_drawer_start.*
-
 
 fun startMainActivity(context: Context) {
     val intent = Intent(context, MainActivity::class.java)
@@ -37,24 +38,47 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener {
         DensityUtils.translucentStatusBar(window)
 
         initDrawerStartHeaderView()
-        val toggle = ActionBarDrawerToggle(this, dl_main, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
-        dl_main.addDrawerListener(toggle)
-        toggle.syncState()
 
+        initToolbar()
+
+        initBottomBar()
+    }
+
+    private fun initBottomBar() {
+        bmb_main.setOnPlayControlCallback(object : BottomMusicBar.PlayControlCallback {
+            override fun onPlay(progress: Float) {
+                // TODO onPlayPress
+            }
+            override fun onPause(progress: Float) {
+                // TODO onPausePress
+            }
+
+            override fun onMusicChange(position: Int) {
+                // TODO onMusicSelect
+            }
+        })
+        // TODO init MusicList
+        bmb_main.setMusicList(listOf(
+                TempMusic("生命線", "れをる", "http://p1.music.126.net/-FTQh54lp6TTe4PWgJC4PQ==/3288639278763632.jpg"),
+                TempMusic("水底游歩道", "れをる", "http://p1.music.126.net/-FTQh54lp6TTe4PWgJC4PQ==/3288639278763632.jpg"),
+                TempMusic("ハルシアン", "れをる", "http://p1.music.126.net/-FTQh54lp6TTe4PWgJC4PQ==/3288639278763632.jpg")))
+        bmb_main.setProgress(0.7f)
+    }
+
+    // TODO init fragment
+    private fun initPage() = mutableListOf<BaseFragment>(
+            TempFragment(),
+            TempFragment().setTempImageResId(R.drawable.temp_bg_main_discover),
+            TempFragment().setTempImageResId(R.drawable.temp_bg_main_video))
+
+    private fun initToolbar() {
         setSupportActionBar(toolbar)
         supportActionBar?.title = ""
         toolbar.setNavigationOnClickListener {
             dl_main.openDrawer(Gravity.START)
         }
 
-//        TODO init fragment
-        val fragmentList: MutableList<BaseFragment> = mutableListOf(
-                TempFragment(),
-                TempFragment().setTempImageResId(R.drawable.temp_bg_main_discover),
-                TempFragment().setTempImageResId(R.drawable.temp_bg_main_video))
-        val vpAdapter = BaseViewPagerAdapter<BaseFragment>(supportFragmentManager, fragmentList)
-
-        vp_main.adapter = vpAdapter
+        vp_main.adapter = BaseViewPagerAdapter<BaseFragment>(supportFragmentManager, initPage())
         tl_main_toolbar.setupWithViewPager(vp_main)
         tl_main_toolbar.setSelectedTabIndicatorHeight(0)
         tl_main_toolbar.addOnTabSelectedListener(this)
@@ -78,6 +102,10 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener {
                 startLoginActivity(this@MainActivity, false)
             }
         }
+
+        val toggle = ActionBarDrawerToggle(this, dl_main, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+        dl_main.addDrawerListener(toggle)
+        toggle.syncState()
     }
 
     private fun createTabIconView(imgResId: Int): ImageView {

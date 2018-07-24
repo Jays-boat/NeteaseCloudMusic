@@ -10,7 +10,6 @@ import android.view.WindowManager;
 /**
  * Created by Hosigus on 2018/7/20.
  */
-
 public class DensityUtils {
 
     private static int screenWidth  = 0;
@@ -22,20 +21,20 @@ public class DensityUtils {
         }
     }
 
-    public static int dp2px(Context context, float dpValue) {
+    public static float dp2px(Context context, float dpValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (dpValue * scale + 0.5f);
+        return dpValue * scale + 0.5f;
     }
 
-    public static int px2dp(Context context, float pxValue) {
+    public static float px2dp(Context context, float pxValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (pxValue / scale + 0.5f);
+        return pxValue / scale + 0.5f;
     }
 
     public static int getScreenHeight(Context c) {
         if (screenHeight == 0) {
             WindowManager wm = (WindowManager) c.getSystemService(Context.WINDOW_SERVICE);
-            Display display = null;
+            Display display;
             Point size = new Point();
             if (wm != null) {
                 display = wm.getDefaultDisplay();
@@ -49,7 +48,7 @@ public class DensityUtils {
     public static int getScreenWidth(Context c) {
         if (screenWidth == 0) {
             WindowManager wm = (WindowManager) c.getSystemService(Context.WINDOW_SERVICE);
-            Display display = null;
+            Display display;
             Point size = new Point();
             if (wm != null) {
                 display = wm.getDefaultDisplay();

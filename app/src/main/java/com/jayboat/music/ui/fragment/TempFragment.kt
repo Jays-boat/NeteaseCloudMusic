@@ -7,7 +7,7 @@ import android.widget.ImageView
 import com.jayboat.music.R
 
 /**
- * Created by 某只机智 on 2018/7/18.
+ * Created by Hosigus on 2018/7/18.
  */
 class TempFragment : BaseFragment() {
     private var tempImageResId: Int = R.drawable.bg_login

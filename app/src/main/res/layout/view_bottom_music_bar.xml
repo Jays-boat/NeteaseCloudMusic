@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="48dp">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_bottom_music"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent" />
+
+    <com.jayboat.music.ui.view.PlayProgressControlButton
+        android:id="@+id/btn_bottom_play_control"
+        android:padding="2dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_gravity="center"/>
+
+    <ImageView
+        android:id="@+id/btn_bottom_show_list"
+        android:layout_width="24dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="12dp"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_show_list_bottom"/>
+
+</LinearLayout>
