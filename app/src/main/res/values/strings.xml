@@ -23,4 +23,8 @@
     <string name="l_menu_main_drawer">驾驶模式</string>
     <string name="m_menu_main_drawer">音乐云盘</string>
     <string name="n_menu_main_drawer">优惠劵</string>
+
+    <item type="id" name="album_list_group0" />
+    <item type="id" name="album_list_group1" />
+    <item type="id" name="album_list_group2" />
 </resources>

@@ -3,11 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/AlbumList_rv"
+    <ExpandableListView
+        android:id="@+id/elv_album_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </android.support.v7.widget.RecyclerView>
+    </ExpandableListView>
 
 </android.support.constraint.ConstraintLayout>
