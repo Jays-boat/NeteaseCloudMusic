@@ -23,7 +23,7 @@ class TempFragment : BaseFragment() {
     fun setTempImageResId(tempImageResId:Int):TempFragment{
         val bundle = Bundle()
         bundle.putInt("tempImageResId", tempImageResId)
-        setArguments(bundle)
+        arguments = bundle
         return this
     }
 

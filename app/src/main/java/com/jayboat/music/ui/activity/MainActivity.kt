@@ -15,6 +15,7 @@ import com.jayboat.music.App
 import com.jayboat.music.R
 import com.jayboat.music.adapter.BaseViewPagerAdapter
 import com.jayboat.music.bean.TempMusic
+import com.jayboat.music.ui.fragment.AlbumListFragment
 import com.jayboat.music.ui.fragment.BaseFragment
 import com.jayboat.music.ui.fragment.TempFragment
 import com.jayboat.music.ui.view.BottomMusicBar
@@ -67,7 +68,7 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener {
 
     // TODO init fragment
     private fun initPage() = mutableListOf<BaseFragment>(
-            TempFragment(),
+            AlbumListFragment(),
             TempFragment().setTempImageResId(R.drawable.temp_bg_main_discover),
             TempFragment().setTempImageResId(R.drawable.temp_bg_main_video))
 
