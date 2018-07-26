@@ -7,11 +7,11 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 
 import com.bumptech.glide.Glide;
-import com.example.cynthia.neteasecloudmusic.viewholder.AlbumListFoldHolder;
-import com.example.cynthia.neteasecloudmusic.viewholder.AlbumListNormalHolder;
-import com.example.cynthia.neteasecloudmusic.viewholder.AlbumListSongHolder;
 import com.jayboat.music.R;
 import com.jayboat.music.bean.PlaylistBean;
+import com.jayboat.music.viewholder.AlbumListFoldHolder;
+import com.jayboat.music.viewholder.AlbumListNormalHolder;
+import com.jayboat.music.viewholder.AlbumListSongHolder;
 
 import java.util.ArrayList;
 

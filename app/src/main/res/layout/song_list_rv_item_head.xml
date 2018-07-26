@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_shape_song_list_radious">
+
+    <ImageView
+        android:id="@+id/iv_song_list_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/song_list_ic_play"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"/>
+
+    <TextView
+        android:id="@+id/tv_song_list_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="播放全部"
+        android:textColor="@color/main_word"
+        android:textSize="18sp"
+        android:layout_toRightOf="@id/iv_song_list_play"
+        android:layout_centerVertical="true"/>
+
+    <TextView
+        android:id="@+id/tv_song_list_play_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/tv_song_list_play"
+        android:layout_centerVertical="true"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/weak1"
+        android:layout_below="@id/iv_song_list_play"/>
+</RelativeLayout>

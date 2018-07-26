@@ -1,5 +1,6 @@
 package com.jayboat.music.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,7 +18,9 @@ import com.jayboat.music.adapter.AlbumListAdapter;
 import com.jayboat.music.bean.AlbumList;
 import com.jayboat.music.bean.PlaylistBean;
 import com.jayboat.music.config.NetConfig;
+import com.jayboat.music.ui.activity.SongListActivity;
 import com.jayboat.music.utils.NetUtils;
+import com.jayboat.music.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +61,22 @@ public class AlbumListFragment extends Fragment {
         AlbumListAdapter adapter = new AlbumListAdapter(App.getAppContext(),myList,collectList);
         mListView.setAdapter(adapter);
         mListView.setGroupIndicator(null);
+        mListView.setOnChildClickListener((parent, v, groupPosition, childPosition, id) -> {
+            switch (groupPosition){
+                case 0:
+                    //todo: into local music list
+                    break;
+                case 1:
+                    long musicId = myList.get(childPosition).getId();
+                    showDetail(musicId);
+                    break;
+                case 2:
+                    long musicId1 = collectList.get(childPosition).getId();
+                    showDetail(musicId1);
+                    break;
+            }
+            return true;
+        });
     }
 
     private void loadData(final View view){
@@ -65,7 +84,7 @@ public class AlbumListFragment extends Fragment {
             @Override
             public void onResponse(Call<AlbumList> call, Response<AlbumList> response) {
                 if (response.body() == null){
-                    Log.v(TAG,"error");
+                    ToastUtils.show("歌单内容无法获取:(");
                 } else {
                     allList = response.body().getPlaylist();
                     initView(view);
@@ -74,8 +93,15 @@ public class AlbumListFragment extends Fragment {
 
             @Override
             public void onFailure(Call<AlbumList> call, Throwable t) {
-                Log.v(TAG,"failed:(");
+                ToastUtils.show("无法连接到网络:(");
+                Log.v(TAG,t.toString());
             }
         });
+    }
+
+    private void showDetail(long id){
+        Intent intent = new Intent(getActivity(), SongListActivity.class);
+        intent.putExtra("id",id);
+        startActivity(intent);
     }
 }

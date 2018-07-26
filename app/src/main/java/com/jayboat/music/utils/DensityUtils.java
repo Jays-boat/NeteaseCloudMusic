@@ -1,23 +1,36 @@
 package com.jayboat.music.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Point;
 import android.os.Build;
 import android.view.Display;
+import android.view.Gravity;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 
 /**
  * Created by Hosigus on 2018/7/20.
  */
 public class DensityUtils {
 
-    private static int screenWidth  = 0;
+    private static int screenWidth = 0;
     private static int screenHeight = 0;
 
     public static void translucentStatusBar(Window window) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+    }
+
+
+    public static void setStatusBarColor(Window window, int colorAgb) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(colorAgb);
         }
     }
 

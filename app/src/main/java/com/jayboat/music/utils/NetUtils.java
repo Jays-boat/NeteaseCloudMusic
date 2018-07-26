@@ -2,6 +2,7 @@ package com.jayboat.music.utils;
 
 import com.jayboat.music.bean.AlbumList;
 import com.jayboat.music.bean.PlaylistBean;
+import com.jayboat.music.bean.Song;
 import com.jayboat.music.bean.User;
 import com.jayboat.music.config.NetConfig;
 
@@ -27,6 +28,12 @@ public class NetUtils {
         NetConfig.GetMusicData getMusicData = getRetrofitBuilder().build().create(NetConfig.GetMusicData.class);
         Call<AlbumList> call = getMusicData.getAlbumList(String.valueOf(id));
         call.enqueue(getAlbumListCallBack);
+    }
+
+    public static void getMusicList(long id, Callback<Song> songCallback){
+        NetConfig.GetMusicData getMusicData = getRetrofitBuilder().build().create(NetConfig.GetMusicData.class);
+        Call<Song> call = getMusicData.getSongList(String.valueOf(id));
+        call.enqueue(songCallback);
     }
 
     private static Retrofit.Builder getRetrofitBuilder() {

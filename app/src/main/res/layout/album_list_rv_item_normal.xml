@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:text="本地音乐"
         android:textColor="@color/main_word"
-        android:textSize="18dp"
+        android:textSize="15sp"
         android:layout_toRightOf="@id/iv_albumList_icon"
         android:layout_centerVertical="true"
         />
