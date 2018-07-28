@@ -2,6 +2,7 @@ package com.jayboat.music.ui.view
 
 import android.content.Context
 import android.graphics.*
+import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.widget.ImageView
 import com.jayboat.music.R
@@ -10,10 +11,13 @@ import com.jayboat.music.utils.DensityUtils
 /**
  * Created by Hosigus on 2018/7/23.
  */
-class PlayProgressControlButton(context: Context?, attrs: AttributeSet?) : ImageView(context, attrs) {
+class PlayProgressControlButton(context: Context, attrs: AttributeSet?) : ImageView(context, attrs) {
 
     private val progressPaint = Paint()
-    private val rect = RectF(DensityUtils.dp2px(context, 2.2f), DensityUtils.dp2px(context, 2.2f), DensityUtils.dp2px(context, 29.8f), DensityUtils.dp2px(context, 29.8f))
+    private val rect = RectF(DensityUtils.dp2px(context, 2.3f), DensityUtils.dp2px(context, 2.3f), DensityUtils.dp2px(context, 29.7f), DensityUtils.dp2px(context, 29.7f))
+    private val pauseDrawable = ContextCompat.getDrawable(context, R.drawable.ic_pause_bottom)
+    private val playDrawable = ContextCompat.getDrawable(context, R.drawable.ic_play_bottom)
+
 
     var progress = 0f
         set(value) {
@@ -30,7 +34,7 @@ class PlayProgressControlButton(context: Context?, attrs: AttributeSet?) : Image
         progressPaint.color = Color.rgb(206, 61, 58)
         progressPaint.strokeWidth = DensityUtils.dp2px(context, 1.45f)
 
-        this.setImageResource(R.drawable.ic_play_bottom)
+        this.setImageDrawable(pauseDrawable)
     }
 
     override fun onDraw(canvas: Canvas?) {
@@ -45,9 +49,9 @@ class PlayProgressControlButton(context: Context?, attrs: AttributeSet?) : Image
     fun switchPlayStatus() {
         isPlaying = !isPlaying
         if (isPlaying) {
-            this.setImageResource(R.drawable.ic_play_bottom)
+            this.setImageDrawable(playDrawable)
         } else {
-            this.setImageResource(R.drawable.ic_pause_bottom)
+            this.setImageDrawable(pauseDrawable)
         }
     }
 }

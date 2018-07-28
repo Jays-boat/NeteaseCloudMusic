@@ -44,16 +44,15 @@ public class BottomMusicBar extends LinearLayout {
 
         LayoutInflater.from(context).inflate(R.layout.view_bottom_music_bar, this, true);
         playControlButton = findViewById(R.id.btn_bottom_play_control);
-
         playControlButton.setOnClickListener(v -> {
             playControlButton.switchPlayStatus();
             if (playControlCallback == null) {
                 return;
             }
             if (playControlButton.isPlaying()) {
-                playControlCallback.onPlay(playControlButton.getProgress());
+                playControlCallback.play();
             } else {
-                playControlCallback.onPause(playControlButton.getProgress());
+                playControlCallback.pause();
             }
         });
 
@@ -74,7 +73,7 @@ public class BottomMusicBar extends LinearLayout {
             public void onPageSelected(int position) {
                 setProgress(0);
                 if (playControlCallback != null) {
-                    playControlCallback.onMusicChange(position);
+                    playControlCallback.changeMusic(position);
                 }
             }
 
@@ -95,11 +94,11 @@ public class BottomMusicBar extends LinearLayout {
     }
 
     public interface PlayControlCallback {
-        void onPlay(float progress);
+        void play();
 
-        void onPause(float progress);
+        void pause();
 
-        void onMusicChange(int position);
+        void changeMusic(int pos);
     }
 
     private class MusicPageAdapter extends PagerAdapter{

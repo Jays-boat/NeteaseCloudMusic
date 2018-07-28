@@ -1,9 +1,12 @@
 package com.jayboat.music.ui.activity
 
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.ServiceConnection
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.os.IBinder
 import android.support.design.widget.TabLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.Gravity
@@ -15,6 +18,7 @@ import com.jayboat.music.App
 import com.jayboat.music.R
 import com.jayboat.music.adapter.BaseViewPagerAdapter
 import com.jayboat.music.bean.TempMusic
+import com.jayboat.music.service.MusicPlayerService
 import com.jayboat.music.ui.fragment.AlbumListFragment
 import com.jayboat.music.ui.fragment.BaseFragment
 import com.jayboat.music.ui.fragment.TempFragment
@@ -32,37 +36,78 @@ fun startMainActivity(context: Context) {
 
 class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener {
 
+    private val tempList = mutableListOf<TempMusic>(
+            TempMusic("生命線", "れをる",
+                    "http://p1.music.126.net/-FTQh54lp6TTe4PWgJC4PQ==/3288639278763632.jpg",
+                    "http://music.163.com/song/media/outer/url?id=28315997.mp3"),
+            TempMusic("水底游歩道", "れをる",
+                    "http://p1.music.126.net/-FTQh54lp6TTe4PWgJC4PQ==/3288639278763632.jpg",
+                    "http://music.163.com/song/media/outer/url?id=33516491.mp3"),
+            TempMusic("ハルシアン", "れをる",
+                    "http://p1.music.126.net/-FTQh54lp6TTe4PWgJC4PQ==/3288639278763632.jpg",
+                    "http://music.163.com/song/media/outer/url?id=33516492.mp3"))
+
+    private val serviceConnection = object :ServiceConnection{
+        override fun onServiceDisconnected(name: ComponentName?) {
+            musicControlBinder=null
+        }
+
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            musicControlBinder = service as MusicPlayerService.MusicControlBinder
+            initBottomBar()
+        }
+
+    }
+    private var musicControlBinder: MusicPlayerService.MusicControlBinder? = null
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        bindService()
 
         DensityUtils.translucentStatusBar(window)
 
         initDrawerStartHeaderView()
 
         initToolbar()
+    }
 
-        initBottomBar()
+    override fun onDestroy() {
+        unbindService()
+        super.onDestroy()
+    }
+
+    private fun bindService() {
+        startService(Intent(this, MusicPlayerService::class.java))
+        bindService(Intent(this, MusicPlayerService::class.java), serviceConnection, BIND_AUTO_CREATE)
+    }
+
+    private fun unbindService() {
+        unbindService(serviceConnection)
     }
 
     private fun initBottomBar() {
         bmb_main.setOnPlayControlCallback(object : BottomMusicBar.PlayControlCallback {
-            override fun onPlay(progress: Float) {
-                // TODO onPlayPress
-            }
-            override fun onPause(progress: Float) {
-                // TODO onPausePress
+            override fun play() {
+                musicControlBinder?.play()
             }
 
-            override fun onMusicChange(position: Int) {
-                // TODO onMusicSelect
+            override fun pause() {
+                musicControlBinder?.pause()
+            }
+
+            override fun changeMusic(pos: Int) {
+                musicControlBinder?.playMusic(pos)
             }
         })
         // TODO init MusicList
-        bmb_main.setMusicList(listOf(
-                TempMusic("生命線", "れをる", "http://p1.music.126.net/-FTQh54lp6TTe4PWgJC4PQ==/3288639278763632.jpg"),
-                TempMusic("水底游歩道", "れをる", "http://p1.music.126.net/-FTQh54lp6TTe4PWgJC4PQ==/3288639278763632.jpg"),
-                TempMusic("ハルシアン", "れをる", "http://p1.music.126.net/-FTQh54lp6TTe4PWgJC4PQ==/3288639278763632.jpg")))
+        musicControlBinder?.setOnProgressUpdateListener {
+            bmb_main.setProgress(it)
+        }
+        musicControlBinder?.setMusicList(tempList)
+        bmb_main.setMusicList(tempList)
         bmb_main.setProgress(0.7f)
     }
 
