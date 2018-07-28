@@ -8,7 +8,7 @@ import java.util.List;
  * when find what kind of it , remember change the type of "?"
  */
 
-public class Song {
+public class SongList {
 
     private ResultBean result;
     private int code;

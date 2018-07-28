@@ -1,8 +1,8 @@
 package com.jayboat.music.utils;
 
 import com.jayboat.music.bean.AlbumList;
-import com.jayboat.music.bean.PlaylistBean;
-import com.jayboat.music.bean.Song;
+import com.jayboat.music.bean.Music;
+import com.jayboat.music.bean.SongList;
 import com.jayboat.music.bean.User;
 import com.jayboat.music.config.NetConfig;
 
@@ -30,10 +30,16 @@ public class NetUtils {
         call.enqueue(getAlbumListCallBack);
     }
 
-    public static void getMusicList(long id, Callback<Song> songCallback){
+    public static void getMusicList(long id, Callback<SongList> songCallback){
         NetConfig.GetMusicData getMusicData = getRetrofitBuilder().build().create(NetConfig.GetMusicData.class);
-        Call<Song> call = getMusicData.getSongList(String.valueOf(id));
+        Call<SongList> call = getMusicData.getSongList(String.valueOf(id));
         call.enqueue(songCallback);
+    }
+
+    public static void getMusicUrl(String id, Callback<Music> musicCallback){
+        NetConfig.GetMusicData getMusicData = getRetrofitBuilder().build().create(NetConfig.GetMusicData.class);
+        Call<Music> call = getMusicData.getMusicUrl(id);
+        call.enqueue(musicCallback);
     }
 
     private static Retrofit.Builder getRetrofitBuilder() {

@@ -1,6 +1,6 @@
 package com.jayboat.music.ui.fragment;
 
-import android.os.Bundle;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
@@ -11,12 +11,10 @@ import com.jayboat.music.R;
 import com.jayboat.music.adapter.AlbumListAdapter;
 import com.jayboat.music.bean.AlbumList;
 import com.jayboat.music.bean.PlaylistBean;
-import com.jayboat.music.config.NetConfig;
 import com.jayboat.music.ui.activity.SongListActivity;
 import com.jayboat.music.utils.NetUtils;
 import com.jayboat.music.utils.ToastUtils;
 
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,29 +89,10 @@ public class AlbumListFragment extends BaseFragment {
         });
     }
 
-    private void loadData(final View view){
-        NetUtils.getAlbumList(App.getUser().getAccount().getId(),new Callback<AlbumList>() {
-            @Override
-            public void onResponse(Call<AlbumList> call, Response<AlbumList> response) {
-                if (response.body() == null){
-                    ToastUtils.show("歌单内容无法获取:(");
-                } else {
-                    allList = response.body().getPlaylist();
-                    initView(view);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<AlbumList> call, Throwable t) {
-                ToastUtils.show("无法连接到网络:(");
-                Log.v(TAG,t.toString());
-            }
-        });
-    }
 
     private void showDetail(long id){
         Intent intent = new Intent(getActivity(), SongListActivity.class);
-        intent.putExtra("id",id);
+        intent.putExtra("SongListId",id);
         startActivity(intent);
     }
 }

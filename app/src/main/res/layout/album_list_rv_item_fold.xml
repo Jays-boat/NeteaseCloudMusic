@@ -16,8 +16,7 @@
         android:id="@+id/tv_albumList_word_songList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="10sp"
-        android:text="我创建的歌单"
+        android:textSize="12sp"
         android:layout_toRightOf="@+id/iv_albumList_arrow"
         android:layout_centerVertical="true"/>
 
@@ -27,5 +26,6 @@
         android:layout_height="wrap_content"
         android:src="@drawable/info_setting_tabs"
         android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
         android:padding="8dp"/>
 </RelativeLayout>

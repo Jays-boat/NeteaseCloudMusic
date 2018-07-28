@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import com.jayboat.music.App
 import com.jayboat.music.R
@@ -23,6 +24,8 @@ fun startLoginPhoneActivity(context: Context){
 
 class LoginPhoneActivity : AppCompatActivity() {
 
+    private val mTag = "LoginPhoneActivity"
+
     private val loginPhoneCallback by lazy {
         object : Callback<User> {
             override fun onResponse(call: Call<User>, response: Response<User>) {
@@ -38,6 +41,7 @@ class LoginPhoneActivity : AppCompatActivity() {
 
             override fun onFailure(call: Call<User>, t: Throwable) {
                 ToastUtils.show("网络错误")
+                Log.v(mTag,t.toString())
             }
         }
     }

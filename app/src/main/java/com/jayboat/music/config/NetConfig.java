@@ -1,7 +1,8 @@
 package com.jayboat.music.config;
 
 import com.jayboat.music.bean.AlbumList;
-import com.jayboat.music.bean.Song;
+import com.jayboat.music.bean.Music;
+import com.jayboat.music.bean.SongList;
 import com.jayboat.music.bean.User;
 
 import retrofit2.Call;
@@ -23,6 +24,9 @@ public class NetConfig {
         Call<AlbumList> getAlbumList(@Query("uid")String id);
 
         @GET("playlist/detail")
-        Call<Song> getSongList(@Query("id")String albumListId);
+        Call<SongList> getSongList(@Query("id")String albumListId);
+
+        @GET("music/url")
+        Call<Music> getMusicUrl(@Query("id")String musicId);
     }
 }

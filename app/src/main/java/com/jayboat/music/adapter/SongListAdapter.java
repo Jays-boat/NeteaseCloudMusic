@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import com.jayboat.music.App;
 import com.jayboat.music.R;
-import com.jayboat.music.bean.Song;
+import com.jayboat.music.bean.SongList;
 import com.jayboat.music.viewholder.SongListHeadViewHolder;
 import com.jayboat.music.viewholder.SongListItemViewHolder;
 
@@ -16,11 +16,11 @@ import java.util.List;
 
 public class SongListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    public static final int TYPE_HEAD = -1;
-    public static final int TYPE_ITEM = -2;
-    private List<Song.ResultBean.TracksBean> mMusicList;
+    private static final int TYPE_HEAD = -1;
+    private static final int TYPE_ITEM = -2;
+    private List<SongList.ResultBean.TracksBean> mMusicList;
 
-    public SongListAdapter(List<Song.ResultBean.TracksBean> list){
+    public SongListAdapter(List<SongList.ResultBean.TracksBean> list){
         this.mMusicList = list;
     }
 
@@ -47,8 +47,6 @@ public class SongListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if (holder instanceof SongListItemViewHolder){
             SongListItemViewHolder listItemViewHolder = (SongListItemViewHolder)holder;
             listItemViewHolder.initData(mMusicList.get(position - 1),position);
-        } else {
-            SongListHeadViewHolder headViewHolder = (SongListHeadViewHolder)holder;
         }
     }
 

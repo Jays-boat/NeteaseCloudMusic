@@ -87,7 +87,7 @@ public class User implements Serializable {
         private int baoyueVersion;
         private int donateVersion;
         private int vipType;
-        private int viptypeVersion;
+        private String viptypeVersion;
         private boolean anonimousUser;
 
         public int getId() {
@@ -186,11 +186,11 @@ public class User implements Serializable {
             this.vipType = vipType;
         }
 
-        public int getViptypeVersion() {
+        public String getViptypeVersion() {
             return viptypeVersion;
         }
 
-        public void setViptypeVersion(int viptypeVersion) {
+        public void setViptypeVersion(String viptypeVersion) {
             this.viptypeVersion = viptypeVersion;
         }
 
@@ -461,7 +461,7 @@ public class User implements Serializable {
         private boolean expired;
         private int userId;
         private int refreshTime;
-        private int id;
+        private String id;
         private int type;
 
         public String getUrl() {
@@ -512,11 +512,11 @@ public class User implements Serializable {
             this.refreshTime = refreshTime;
         }
 
-        public int getId() {
+        public String getId() {
             return id;
         }
 
-        public void setId(int id) {
+        public void setId(String id) {
             this.id = id;
         }
 

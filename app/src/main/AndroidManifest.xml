@@ -23,6 +23,7 @@
         <activity android:name=".ui.activity.LoginActivity" />
         <activity android:name=".ui.activity.LoginPhoneActivity" />
         <activity android:name=".ui.activity.SongListActivity" />
+        <activity android:name=".ui.activity.PlayingMusicActivity" />
     </application>
 
 </manifest>
