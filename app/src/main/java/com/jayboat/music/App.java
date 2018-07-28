@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.util.Base64;
 
+import com.danikula.videocache.HttpProxyCacheServer;
 import com.jayboat.music.bean.User;
 import com.jayboat.music.utils.NetUtils;
 import com.jayboat.music.utils.ToastUtils;
@@ -27,12 +28,17 @@ import retrofit2.Response;
  */
 
 public class App extends Application {
+
     private static Context appContext;
+
+    private static HttpProxyCacheServer proxy;
+
     private static User user;
     private static SharedPreferences preferences;
     private static String phone;
     private static String pwd;
     public static boolean isLoginSuccessful = false;
+
 
     @Override
     public void onCreate() {
@@ -149,5 +155,9 @@ public class App extends Application {
 
     public static User getUser() {
         return user;
+    }
+
+    public static HttpProxyCacheServer getProxy() {
+        return proxy == null ? (proxy = new HttpProxyCacheServer(appContext)) : proxy;
     }
 }

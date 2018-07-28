@@ -8,15 +8,17 @@ public class TempMusic {
     private String musicName;
     private String musicIconUrl;
     private String singerName;
+    private String musicUrl;
 
     public TempMusic() {
 
     }
 
-    public TempMusic(String musicName, String singerName, String musicIconUrl) {
+    public TempMusic(String musicName, String singerName, String musicIconUrl,String musicUrl) {
         this.musicName = musicName;
         this.singerName = singerName;
         this.musicIconUrl = musicIconUrl;
+        this.musicUrl = musicUrl;
     }
 
     public String getMusicName() {
@@ -41,5 +43,13 @@ public class TempMusic {
 
     public void setSingerName(String singerName) {
         this.singerName = singerName;
+    }
+
+    public String getMusicUrl() {
+        return musicUrl;
+    }
+
+    public void setMusicUrl(String musicUrl) {
+        this.musicUrl = musicUrl;
     }
 }
