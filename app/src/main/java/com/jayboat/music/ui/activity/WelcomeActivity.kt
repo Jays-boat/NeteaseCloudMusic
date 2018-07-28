@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.jayboat.music.App
 import com.jayboat.music.R
-import com.jayboat.music.ui.activity.startMainActivity
 import com.jayboat.music.utils.DensityUtils
 import com.jayboat.music.utils.ThreadUtils
 import kotlinx.android.synthetic.main.activity_welcome.*
@@ -27,18 +26,19 @@ class WelcomeActivity : AppCompatActivity() {
         rl_welcome.background = BitmapDrawable(resources, bgBitmap)
 
         btn_skip.setOnClickListener {
-            isThisActivityClosed = true
-            onWelcomeDone()
+            welcomeDone()
         }
 
         ThreadUtils.getInstance().postDelay({
-            if (!isThisActivityClosed) {
-                onWelcomeDone()
-            }
+            welcomeDone()
         },1000)
     }
 
-    fun onWelcomeDone() {
+    private fun welcomeDone() {
+        if (isThisActivityClosed) {
+            return
+        }
+        isThisActivityClosed = true
         if (App.existUserInfo()) {
             startMainActivity(this)
         } else {
