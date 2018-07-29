@@ -14,14 +14,18 @@ import com.jayboat.music.viewholder.SongListItemViewHolder;
 
 import java.util.List;
 
+import retrofit2.http.HEAD;
+
 public class SongListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int TYPE_HEAD = -1;
     private static final int TYPE_ITEM = -2;
     private List<SongList.ResultBean.TracksBean> mMusicList;
+    private SongChooseListener listener;
 
-    public SongListAdapter(List<SongList.ResultBean.TracksBean> list){
+    public SongListAdapter(List<SongList.ResultBean.TracksBean> list, SongChooseListener listener) {
         this.mMusicList = list;
+        this.listener = listener;
     }
 
     @Override
@@ -44,14 +48,19 @@ public class SongListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof SongListItemViewHolder){
-            SongListItemViewHolder listItemViewHolder = (SongListItemViewHolder)holder;
-            listItemViewHolder.initData(mMusicList.get(position - 1),position);
+        int type = getItemViewType(position);
+        if (type == TYPE_ITEM) {
+            ((SongListItemViewHolder) holder).initData(mMusicList.get(position - 1), position);
         }
+        holder.itemView.setOnClickListener(v-> listener.onChoose(type == TYPE_HEAD ? 0 : position - 1));
     }
 
     @Override
     public int getItemCount() {
         return mMusicList.size() + 1;
+    }
+
+    public interface SongChooseListener{
+        void onChoose(int pos);
     }
 }

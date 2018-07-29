@@ -1,12 +1,8 @@
 package com.jayboat.music.ui.activity
 
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.content.ServiceConnection
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.os.IBinder
 import android.support.design.widget.TabLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.Gravity
@@ -17,12 +13,8 @@ import com.bumptech.glide.Glide
 import com.jayboat.music.App
 import com.jayboat.music.R
 import com.jayboat.music.adapter.BaseViewPagerAdapter
-import com.jayboat.music.bean.TempMusic
-import com.jayboat.music.service.MusicPlayerService
 import com.jayboat.music.ui.fragment.AlbumListFragment
-import com.jayboat.music.ui.fragment.BaseFragment
 import com.jayboat.music.ui.fragment.TempFragment
-import com.jayboat.music.ui.view.BottomMusicBar
 import com.jayboat.music.utils.DensityUtils
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_main.*
@@ -34,38 +26,11 @@ fun startMainActivity(context: Context) {
     context.startActivity(intent)
 }
 
-class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener {
-
-    private val tempList = mutableListOf<TempMusic>(
-            TempMusic("生命線", "れをる",
-                    "http://p1.music.126.net/-FTQh54lp6TTe4PWgJC4PQ==/3288639278763632.jpg",
-                    "http://music.163.com/song/media/outer/url?id=28315997.mp3"),
-            TempMusic("水底游歩道", "れをる",
-                    "http://p1.music.126.net/-FTQh54lp6TTe4PWgJC4PQ==/3288639278763632.jpg",
-                    "http://music.163.com/song/media/outer/url?id=33516491.mp3"),
-            TempMusic("ハルシアン", "れをる",
-                    "http://p1.music.126.net/-FTQh54lp6TTe4PWgJC4PQ==/3288639278763632.jpg",
-                    "http://music.163.com/song/media/outer/url?id=33516492.mp3"))
-
-    private val serviceConnection = object :ServiceConnection{
-        override fun onServiceDisconnected(name: ComponentName?) {
-            musicControlBinder=null
-        }
-
-        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-            musicControlBinder = service as MusicPlayerService.MusicControlBinder
-            initBottomBar()
-        }
-
-    }
-    private var musicControlBinder: MusicPlayerService.MusicControlBinder? = null
-
+class MainActivity : BaseActivity(), TabLayout.OnTabSelectedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        bindService()
 
         DensityUtils.translucentStatusBar(window)
 
@@ -74,45 +39,8 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener {
         initToolbar()
     }
 
-    override fun onDestroy() {
-        unbindService()
-        super.onDestroy()
-    }
-
-    private fun bindService() {
-        startService(Intent(this, MusicPlayerService::class.java))
-        bindService(Intent(this, MusicPlayerService::class.java), serviceConnection, BIND_AUTO_CREATE)
-    }
-
-    private fun unbindService() {
-        unbindService(serviceConnection)
-    }
-
-    private fun initBottomBar() {
-        bmb_main.setOnPlayControlCallback(object : BottomMusicBar.PlayControlCallback {
-            override fun play() {
-                musicControlBinder?.play()
-            }
-
-            override fun pause() {
-                musicControlBinder?.pause()
-            }
-
-            override fun changeMusic(pos: Int) {
-                musicControlBinder?.playMusic(pos)
-            }
-        })
-        // TODO init MusicList
-        musicControlBinder?.setOnProgressUpdateListener {
-            bmb_main.setProgress(it)
-        }
-        musicControlBinder?.setMusicList(tempList)
-        bmb_main.setMusicList(tempList)
-        bmb_main.setProgress(0.7f)
-    }
-
     // TODO init fragment
-    private fun initPage() = mutableListOf<BaseFragment>(
+    private fun initPage() = mutableListOf(
             AlbumListFragment(),
             TempFragment().setTempImageResId(R.drawable.temp_bg_main_discover),
             TempFragment().setTempImageResId(R.drawable.temp_bg_main_video))
@@ -124,7 +52,7 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener {
             dl_main.openDrawer(Gravity.START)
         }
 
-        vp_main.adapter = BaseViewPagerAdapter<BaseFragment>(supportFragmentManager, initPage())
+        vp_main.adapter = BaseViewPagerAdapter(supportFragmentManager, initPage())
         tl_main_toolbar.setupWithViewPager(vp_main)
         tl_main_toolbar.setSelectedTabIndicatorHeight(0)
         tl_main_toolbar.addOnTabSelectedListener(this)
@@ -140,7 +68,7 @@ class MainActivity : AppCompatActivity(), TabLayout.OnTabSelectedListener {
             val headerView = nv_main_start.inflateHeaderView(R.layout.layout_logined_header_main_drawer)
             val manager = Glide.with(this)
             manager.load(App.getUser().profile.avatarUrl).into(headerView.findViewById<CircleImageView>(R.id.civ_head))
-            manager.load(App.getUser().profile.backgroundUrl).into(headerView.findViewById<ImageView>(R.id.iv_background))
+            manager.load(App.getUser().profile.backgroundUrl).into(headerView.findViewById(R.id.iv_background))
             headerView.findViewById<TextView>(R.id.tv_name).text = App.getUser().profile.nickname
         } else {
             val headerView = nv_main_start.inflateHeaderView(R.layout.layout_unknown_header_main_drawer)

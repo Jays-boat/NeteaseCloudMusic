@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.graphics.Palette;
@@ -11,8 +13,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -35,17 +35,17 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SongListActivity extends AppCompatActivity implements View.OnClickListener {
+public class SongListActivity extends BaseActivity{
 
     private long albumID;
-    private TextView title;
     private TextView albumName;
     private TextView creatorName;
     private CircleImageView creatorAvatar;
     private RoundedImageView albumImage;
     private RecyclerView mRv;
     private RelativeLayout mRl;
-    private Toolbar mTb;
+    private Toolbar toolbar;
+    private CollapsingToolbarLayout collapsingToolbarLayout;
     private Bitmap backgroundBitmap;
     private SongList mSongList;
     private List<SongList.ResultBean.TracksBean> mTrackList;
@@ -91,7 +91,11 @@ public class SongListActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void initData(){
-        title.setText("歌单");
+        setSupportActionBar(toolbar);
+        toolbar.setTitle("歌单");
+        toolbar.setNavigationOnClickListener(v->{
+            finish();
+        });
 
         SongList.ResultBean.CreatorBean creator = mSongList.getResult().getCreator();
         creatorName.setText(creator.getNickname());
@@ -110,38 +114,37 @@ public class SongListActivity extends AppCompatActivity implements View.OnClickL
                     public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                         backgroundBitmap = resource;
                         Palette.from(backgroundBitmap).generate(palette -> {
-                            DensityUtils.setStatusBarColor(getWindow(),palette.getDarkMutedColor(Color.parseColor("#000000")));
-                            mRl.setBackgroundColor(palette.getDarkMutedColor(Color.parseColor("#000000")));
-                            mTb.setBackgroundColor(palette.getDarkMutedColor(Color.parseColor("#000000")));
+                            int color = palette.getDarkMutedColor(Color.parseColor("#000000"));
+                            DensityUtils.setStatusBarColor(getWindow(), color);
+                            mRl.setBackgroundColor(color);
+                            toolbar.setBackgroundColor(color);
+                            collapsingToolbarLayout.setContentScrimColor(color);
                         });
                     }
                 });
 
-        SongListAdapter songListAdapter = new SongListAdapter(mTrackList);
+        SongListAdapter songListAdapter = new SongListAdapter(mTrackList,pos -> {
+            if (getMusicControlBinder() == null) {
+                return;
+            }
+            getMusicControlBinder().setMusicList(mSongList);
+            getMusicControlBinder().playMusic(pos);
+            PlayingMusicActivity.actionStart(SongListActivity.this);
+        });
         mRv.setAdapter(songListAdapter);
         mRv.setLayoutManager(new LinearLayoutManager(App.getAppContext()));
-        }
+
+    }
 
     private void initLocalView(){
-        title = findViewById(R.id.tv_song_list_title);
         albumName = findViewById(R.id.tv_song_list_album_name);
         creatorName = findViewById(R.id.tv_song_list_creator);
         creatorAvatar = findViewById(R.id.civ_song_list_creator);
         albumImage = findViewById(R.id.riv_song_list_album);
         mRv = findViewById(R.id.rv_song_list);
         mRl = findViewById(R.id.rl_song_list);
-        mTb = findViewById(R.id.tb_song_list);
-
-        ImageView back = findViewById(R.id.iv_song_list_back);
-        back.setOnClickListener(this);
+        toolbar = findViewById(R.id.toolbar);
+        collapsingToolbarLayout = findViewById(R.id.collapsing_layout);
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.iv_song_list_back:
-                finish();
-                break;
-        }
-    }
 }

@@ -32,7 +32,7 @@
         android:layout_height="match_parent"/>
 
     <com.jayboat.music.ui.view.BottomMusicBar
-        android:id="@+id/bmb_main"
+        android:id="@+id/bottom_music_bar"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_alignParentBottom="true"

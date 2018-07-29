@@ -17,12 +17,12 @@ class MyMediaPlayer : MediaPlayer() {
     var onStartListener: (() -> Unit)? = null
     var onPauseListener: (() -> Unit)? = null
     var onStopListener: (() -> Unit)? = null
-    var onProgressUpdateListener: ((progress: Int) -> Unit)? = null
+    var onProgressUpdateListener: ((progress: Float) -> Unit)? = null
 
     private val updateProgressRunnable = object :Runnable{
         override fun run() {
             if (isPlaying && onProgressUpdateListener != null) {
-                onProgressUpdateListener!!.invoke(currentPosition)
+                onProgressUpdateListener!!.invoke(currentPosition.toFloat() / duration)
                 ThreadUtils.getInstance().postDelay(this, 500L)
             }
         }

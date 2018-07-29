@@ -2,14 +2,11 @@ package com.jayboat.music.service
 
 import android.app.Service
 import android.content.Intent
-import android.media.MediaPlayer
 import android.os.Binder
 import android.os.IBinder
-import android.widget.MediaController
 import com.jayboat.music.App
-import com.jayboat.music.bean.TempMusic
+import com.jayboat.music.bean.SongList
 import com.jayboat.music.utils.MyMediaPlayer
-import com.jayboat.music.utils.ThreadUtils
 import java.io.IOException
 
 /**
@@ -19,11 +16,36 @@ class MusicPlayerService : Service() {
 
     private var playingMusicIndicator = 0
 
-    private var mMusicList = mutableListOf<TempMusic>()
+    private val mMediaPlayer by lazy {
+        val temp = MyMediaPlayer()
+        temp.onStartListener = {
+            for (listener in listeners) {
+                listener.onMusicStart()
+            }
+        }
+        temp.onPauseListener = {
+            for (listener in listeners) {
+                listener.onMusicPause()
+            }
+        }
+        temp.onStopListener = {
+            for (listener in listeners) {
+                listener.onMusicStop()
+            }
+        }
+        temp.onProgressUpdateListener = {
+            for (listener in listeners) {
+                listener.onProgressUpdate(it)
+            }
+        }
+        return@lazy temp
+    }
 
-    private val mMediaPlayer by lazy { MyMediaPlayer() }
+    private val mMusicControlBinder by lazy { MusicControlBinder() }
 
-    private val mMusicControlBinder by lazy { MusicControlBinder()  }
+    private val listeners by lazy{ mutableListOf<MusicPlayerListener>()}
+
+    private var mMusicList: SongList.ResultBean? = null
 
     override fun onBind(intent: Intent?): IBinder {
         return mMusicControlBinder
@@ -41,9 +63,6 @@ class MusicPlayerService : Service() {
         }
 
         fun play() {
-            if (mMusicList.isEmpty()) {
-                return
-            }
             if (mMediaPlayer.isPause()) {
                 mMediaPlayer.start()
             } else {
@@ -55,40 +74,56 @@ class MusicPlayerService : Service() {
             mMediaPlayer.stop()
         }
 
-        fun setMusicList(musicList: MutableList<TempMusic>) {
-            mMusicList = musicList
+        fun seekTo(pos: Long) {
+            TODO("seekTo")
+        }
+
+        fun setMusicList(musicList: SongList) {
+            mMusicList = musicList.result
             mMediaPlayer.reset()
             playingMusicIndicator = 0
+            for (listener in listeners) {
+                listener.onMusicListChange()
+            }
         }
 
         fun playMusic(pos: Int) {
-            if (pos < mMusicList.size) {
+            if (pos < mMusicList!!.trackCount) {
                 playingMusicIndicator = pos
                 try {
                     mMediaPlayer.reset()
-                    mMediaPlayer.setDataSource(App.getProxy().getProxyUrl(mMusicList[pos].getMusicUrl()))
+                    mMediaPlayer.setDataSource(App.getProxy().getProxyUrl(
+                            "http://music.163.com/song/media/outer/url?id=${mMusicList!!.tracks[pos].id}.mp3"))
                     mMediaPlayer.prepare()
                     mMediaPlayer.seekTo(0)
                     mMediaPlayer.start()
+                    for (listener in listeners) {
+                        listener.onMusicSelect(pos)
+                    }
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }
             }
         }
 
-        fun setOnProgressUpdateListener(listener:(progress: Float) -> Unit){
-            mMediaPlayer.onProgressUpdateListener = {
-                listener.invoke(it.toFloat() / mMediaPlayer.duration)
-            }
+        fun addListener(listener: MusicPlayerListener) {
+            listeners.add(listener)
         }
-        fun setOnStartListener(listener: () -> Unit) {
-            mMediaPlayer.onStartListener = listener
+
+        fun removeListener(listener: MusicPlayerListener) {
+            listeners.remove(listener)
         }
-        fun setOnPauseListener(listener: () -> Unit) {
-            mMediaPlayer.onPauseListener = listener
-        }
-        fun setOnStopListener(listener: () -> Unit) {
-            mMediaPlayer.onStopListener = listener
-        }
+
+        fun getMusicList() = mMusicList
+
+    }
+
+    interface MusicPlayerListener {
+        fun onMusicStart()
+        fun onMusicPause()
+        fun onMusicStop()
+        fun onProgressUpdate(progress: Float)
+        fun onMusicSelect(pos: Int)
+        fun onMusicListChange()
     }
 }

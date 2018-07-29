@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.util.Base64;
 
 import com.danikula.videocache.HttpProxyCacheServer;
+import com.jayboat.music.bean.TempMusic;
 import com.jayboat.music.bean.User;
 import com.jayboat.music.utils.NetUtils;
 import com.jayboat.music.utils.ToastUtils;
@@ -18,6 +19,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -38,7 +41,6 @@ public class App extends Application {
     private static String phone;
     private static String pwd;
     public static boolean isLoginSuccessful = false;
-
 
     @Override
     public void onCreate() {
@@ -61,27 +63,27 @@ public class App extends Application {
             pwd = preferences.getString(phone, "");
         }
 
-        String userStr=preferences.getString("user","");
-        if(userStr.isEmpty()){
+        String userStr = preferences.getString("user", "");
+        if (userStr.isEmpty()) {
             return;
         }
-        byte[] newsBytes= Base64.decode(userStr.getBytes(), Base64.DEFAULT);
-        ByteArrayInputStream bais=null;
-        ObjectInputStream ois=null;
+        byte[] newsBytes = Base64.decode(userStr.getBytes(), Base64.DEFAULT);
+        ByteArrayInputStream bais = null;
+        ObjectInputStream ois = null;
         try {
-            bais=new ByteArrayInputStream(newsBytes);
-            ois=new ObjectInputStream(bais);
-            user=(User)ois.readObject();
+            bais = new ByteArrayInputStream(newsBytes);
+            ois = new ObjectInputStream(bais);
+            user = (User) ois.readObject();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         } finally {
-            if(bais!=null)
+            if (bais != null)
                 try {
                     bais.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            if(ois!=null)
+            if (ois != null)
                 try {
                     ois.close();
                 } catch (IOException e) {
@@ -93,7 +95,7 @@ public class App extends Application {
     private void autoLoginByPhone() {
         NetUtils.loginByPhone(phone, pwd, new Callback<User>() {
             @Override
-            public void onResponse(@NonNull Call<User> call,@NonNull Response<User> response) {
+            public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
                 if (response.body() != null && response.body().getCode() == 200) {
                     App.loginSuccessful(response.body());
                 } else {
@@ -102,7 +104,7 @@ public class App extends Application {
             }
 
             @Override
-            public void onFailure(@NonNull Call<User> call,@NonNull Throwable t) {
+            public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
                 ToastUtils.show("密码已更改!");
             }
         });
@@ -115,31 +117,31 @@ public class App extends Application {
     public static void loginSuccessful(@Nullable User user) {
         isLoginSuccessful = true;
         App.user = user;
-        String userStr=null;
-        ByteArrayOutputStream baos=null;
-        ObjectOutputStream oos=null;
+        String userStr = null;
+        ByteArrayOutputStream baos = null;
+        ObjectOutputStream oos = null;
         try {
-            baos=new ByteArrayOutputStream();
-            oos=new ObjectOutputStream(baos);
+            baos = new ByteArrayOutputStream();
+            oos = new ObjectOutputStream(baos);
             oos.writeObject(user);
-            userStr=new String(Base64.encode(baos.toByteArray(), Base64.DEFAULT));
+            userStr = new String(Base64.encode(baos.toByteArray(), Base64.DEFAULT));
         } catch (IOException e) {
             e.printStackTrace();
-        }finally {
-            if(baos!=null)
+        } finally {
+            if (baos != null)
                 try {
                     baos.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            if(oos!=null)
+            if (oos != null)
                 try {
                     oos.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
         }
-        preferences.edit().putString("user",userStr).apply();
+        preferences.edit().putString("user", userStr).apply();
     }
 
     public static void loginSuccessfulByPhone(@Nullable User user, String phone, String pwd) {
@@ -160,4 +162,5 @@ public class App extends Application {
     public static HttpProxyCacheServer getProxy() {
         return proxy == null ? (proxy = new HttpProxyCacheServer(appContext)) : proxy;
     }
+
 }

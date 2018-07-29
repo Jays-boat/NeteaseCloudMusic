@@ -22,14 +22,14 @@
         android:text="播放全部"
         android:textColor="@color/main_word"
         android:textSize="18sp"
-        android:layout_toRightOf="@id/iv_song_list_play"
+        android:layout_toEndOf="@id/iv_song_list_play"
         android:layout_centerVertical="true"/>
 
     <TextView
         android:id="@+id/tv_song_list_play_num"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/tv_song_list_play"
+        android:layout_toEndOf="@id/tv_song_list_play"
         android:layout_centerVertical="true"/>
 
     <View

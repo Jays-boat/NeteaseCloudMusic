@@ -1,5 +1,6 @@
 package com.jayboat.music.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.support.constraint.ConstraintLayout;
@@ -11,7 +12,12 @@ import android.support.v7.widget.Toolbar;
 import com.jayboat.music.R;
 import com.jayboat.music.utils.ToastUtils;
 
-public class PlayingMusicActivity extends AppCompatActivity {
+public class PlayingMusicActivity extends BaseActivity {
+
+    public static void actionStart(Context context) {
+        Intent intent = new Intent(context, PlayingMusicActivity.class);
+        context.startActivity(intent);
+    }
 
     private Toolbar mToolbar;
     private ConstraintLayout mCtl;
