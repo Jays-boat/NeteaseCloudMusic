@@ -8,7 +8,9 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 
+import com.jayboat.music.App;
 import com.jayboat.music.R;
+import com.jayboat.music.ui.activity.PlayingMusicActivity;
 
 /**
  * Created by Hosigus on 2018/7/23.
@@ -67,7 +69,6 @@ public class BottomMusicBar extends LinearLayout {
                     playControlCallback.changeMusic(position);
                 }
             }
-
         });
     }
 

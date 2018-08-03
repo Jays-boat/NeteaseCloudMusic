@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             app:layout_constraintTop_toTopOf="parent"
-            android:background="#ffffffff">
+            android:background="#FAFAFA">
 
             <android.support.design.widget.CollapsingToolbarLayout
                 android:id="@+id/collapsing_layout"
@@ -30,54 +30,56 @@
                 app:statusBarScrim="@android:color/transparent">
 
                 <RelativeLayout
-                    android:id="@+id/rl_song_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:layout_collapseMode="parallax"
-                    app:layout_collapseParallaxMultiplier="0.7">
+                        android:id="@+id/rl_song_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="bottom"
+                        app:layout_collapseMode="parallax"
+                        app:layout_collapseParallaxMultiplier="0.7">
 
                     <com.makeramen.roundedimageview.RoundedImageView
                         android:id="@+id/riv_song_list_album"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
-                        android:layout_centerVertical="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="24dp"
                         android:layout_marginStart="16dp"
                         app:riv_corner_radius="10dp" />
 
-                    <TextView
-                        android:id="@+id/tv_song_list_album_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignTop="@id/riv_song_list_album"
-                        android:layout_marginStart="25dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_toEndOf="@id/riv_song_list_album"
-                        android:textColor="@color/white"
-                        android:textSize="16sp" />
+                        <TextView
+                            android:id="@+id/tv_song_list_album_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@id/riv_song_list_album"
+                            android:layout_marginStart="25dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_toEndOf="@id/riv_song_list_album"
+                            android:textColor="@color/white"
+                            android:textSize="16sp" />
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/civ_song_list_creator"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_alignBottom="@id/riv_song_list_album"
-                        android:layout_alignStart="@id/tv_song_list_album_name"
-                        android:layout_below="@id/tv_song_list_album_name"
-                        android:layout_toEndOf="@id/riv_song_list_album"
-                        android:gravity="center_vertical" />
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/civ_song_list_creator"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_alignBottom="@id/riv_song_list_album"
+                            android:layout_alignStart="@id/tv_song_list_album_name"
+                            android:layout_below="@id/tv_song_list_album_name"
+                            android:layout_toEndOf="@id/riv_song_list_album"
+                            android:gravity="center_vertical" />
 
-                    <TextView
-                        android:id="@+id/tv_song_list_creator"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@id/riv_song_list_album"
-                        android:layout_below="@id/tv_song_list_album_name"
-                        android:layout_marginStart="8dp"
-                        android:layout_toEndOf="@id/civ_song_list_creator"
-                        android:gravity="center_vertical"
-                        android:textColor="@color/white"
-                        android:textSize="12sp" />
+                        <TextView
+                            android:id="@+id/tv_song_list_creator"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBottom="@id/riv_song_list_album"
+                            android:layout_below="@id/tv_song_list_album_name"
+                            android:layout_marginStart="8dp"
+                            android:layout_toEndOf="@id/civ_song_list_creator"
+                            android:gravity="center_vertical"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
 
-                </RelativeLayout>
+                    </RelativeLayout>
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
@@ -85,7 +87,9 @@
                     android:layout_height="?attr/actionBarSize"
                     app:navigationIcon="@drawable/ic_back_login"
                     app:titleTextColor="@color/white"
-                    app:layout_collapseMode="pin"/>
+                    app:layout_collapseMode="pin"
+                    android:layout_gravity="top"/>
+
             </android.support.design.widget.CollapsingToolbarLayout>
 
         </android.support.design.widget.AppBarLayout>

@@ -1,5 +1,6 @@
 package com.jayboat.music.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -8,7 +9,7 @@ import java.util.List;
  * when find what kind of it , remember change the type of "?"
  */
 
-public class SongList {
+public class SongList implements Serializable {
 
     private ResultBean result;
     private int code;
@@ -29,7 +30,7 @@ public class SongList {
         this.code = code;
     }
 
-    public static class ResultBean {
+    public static class ResultBean implements Serializable {
         /**
          * subscribers : []
          * subscribed : false
@@ -365,7 +366,7 @@ public class SongList {
             this.tags = tags;
         }
 
-        public static class CreatorBean {
+        public static class CreatorBean implements Serializable {
             /**
              * defaultAvatar : false
              * province : 500000
@@ -651,7 +652,7 @@ public class SongList {
             }
         }
 
-        public static class TracksBean {
+        public static class TracksBean implements Serializable {
             /**
              * name : 可惜没如果
              * id : 29814898
@@ -1016,7 +1017,7 @@ public class SongList {
                 this.rtUrls = rtUrls;
             }
 
-            public static class AlbumBean {
+            public static class AlbumBean implements Serializable {
                 /**
                  * name : 新地球
                  * id : 3056951
@@ -1241,7 +1242,7 @@ public class SongList {
                     this.artists = artists;
                 }
 
-                public static class ArtistBean {
+                public static class ArtistBean implements Serializable {
                     /**
                      * name :
                      * id : 0
@@ -1357,7 +1358,7 @@ public class SongList {
                     }
                 }
 
-                public static class ArtistsBean {
+                public static class ArtistsBean implements Serializable {
                     /**
                      * name : 林俊杰
                      * id : 3684
@@ -1474,7 +1475,7 @@ public class SongList {
                 }
             }
 
-            public static class HMusicBean {
+            public static class HMusicBean implements Serializable {
                 /**
                  * name : null
                  * id : 1186554092
@@ -1570,7 +1571,7 @@ public class SongList {
                 }
             }
 
-            public static class MMusicBean {
+            public static class MMusicBean implements Serializable {
                 /**
                  * name : null
                  * id : 1186554093
@@ -1666,7 +1667,7 @@ public class SongList {
                 }
             }
 
-            public static class LMusicBean {
+            public static class LMusicBean implements Serializable {
                 /**
                  * name : null
                  * id : 1186554094
@@ -1762,7 +1763,7 @@ public class SongList {
                 }
             }
 
-            public static class BMusicBean {
+            public static class BMusicBean implements Serializable {
                 /**
                  * name : null
                  * id : 1186554094
@@ -1858,7 +1859,7 @@ public class SongList {
                 }
             }
 
-            public static class ArtistsBeanX {
+            public static class ArtistsBeanX implements Serializable {
                 /**
                  * name : 林俊杰
                  * id : 3684

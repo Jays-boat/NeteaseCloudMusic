@@ -36,12 +36,6 @@ public class NetUtils {
         call.enqueue(songCallback);
     }
 
-    public static void getMusicUrl(String id, Callback<Music> musicCallback){
-        NetConfig.GetMusicData getMusicData = getRetrofitBuilder().build().create(NetConfig.GetMusicData.class);
-        Call<Music> call = getMusicData.getMusicUrl(id);
-        call.enqueue(musicCallback);
-    }
-
     private static Retrofit.Builder getRetrofitBuilder() {
         return builder == null ? builder = new Retrofit.Builder()
                 .baseUrl("http://music.moe.tn/")

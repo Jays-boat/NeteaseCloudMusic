@@ -40,6 +40,7 @@ public class AlbumListFragment extends BaseFragment {
     public void initView(@NonNull View view) {
         mListView = view.findViewById(R.id.elv_album_list);
         if (!App.existUserInfo()) {
+            loadNullData();
             return;
         }
         NetUtils.getAlbumList(App.getUser().getAccount().getId(), new Callback<AlbumList>() {
@@ -48,12 +49,17 @@ public class AlbumListFragment extends BaseFragment {
                 if (response.body() != null) {
                     allList = response.body().getPlaylist();
                     loadData2View();
+                } else {
+                    ToastUtils.show(getResources().getString(R.string.fail_info));
+                    loadNullData();
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<AlbumList> call, @NonNull Throwable t) {
-                Log.v(TAG, "failed:(");
+                ToastUtils.show(getResources().getString(R.string.fail_info));
+                Log.v(TAG, "failed:(\nthe reason:"+t.toString());
+                loadNullData();
             }
         });
     }
@@ -89,6 +95,13 @@ public class AlbumListFragment extends BaseFragment {
         });
     }
 
+    private void loadNullData(){
+        ArrayList<PlaylistBean> myList = new ArrayList<>();
+        ArrayList<PlaylistBean> collectList = new ArrayList<>();
+        AlbumListAdapter adapter = new AlbumListAdapter(getContext(),myList,collectList);
+        mListView.setAdapter(adapter);
+        mListView.setGroupIndicator(null);
+    }
 
     private void showDetail(long id){
         Intent intent = new Intent(getActivity(), SongListActivity.class);

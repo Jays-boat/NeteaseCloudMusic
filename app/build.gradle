@@ -13,7 +13,8 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-    }
+
+        }
     buildTypes {
         release {
             minifyEnabled false
@@ -47,4 +48,5 @@ dependencies {
     implementation 'com.makeramen:roundedimageview:2.3.0'
     implementation 'com.android.support:palette-v7:27.1.1'
     implementation 'com.danikula:videocache:2.7.1'
+    implementation 'com.commit451:NativeStackBlur:1.0.2'
 }

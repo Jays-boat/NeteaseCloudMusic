@@ -27,8 +27,8 @@
             android:name=".service.MusicPlayerService"
             android:enabled="true"
             android:exported="true"/>
-        <activity android:name=".ui.activity.SongListActivity" />
         <activity android:name=".ui.activity.PlayingMusicActivity" />
+        <activity android:name=".ui.activity.SongListActivity" />
     </application>
 
 </manifest>

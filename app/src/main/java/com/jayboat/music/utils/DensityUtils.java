@@ -31,6 +31,8 @@ public class DensityUtils {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(colorAgb);
+        } else {
+            translucentStatusBar(window);
         }
     }
 

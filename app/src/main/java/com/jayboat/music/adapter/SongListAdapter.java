@@ -50,7 +50,7 @@ public class SongListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         int type = getItemViewType(position);
         if (type == TYPE_ITEM) {
-            ((SongListItemViewHolder) holder).initData(mMusicList.get(position - 1), position);
+            ((SongListItemViewHolder) holder).initData(mMusicList.get(position - 1),position);
         }
         holder.itemView.setOnClickListener(v-> listener.onChoose(type == TYPE_HEAD ? 0 : position - 1));
     }

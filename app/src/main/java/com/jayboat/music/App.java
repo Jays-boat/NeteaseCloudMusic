@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.util.Base64;
 
 import com.danikula.videocache.HttpProxyCacheServer;
-import com.jayboat.music.bean.TempMusic;
 import com.jayboat.music.bean.User;
 import com.jayboat.music.utils.NetUtils;
 import com.jayboat.music.utils.ToastUtils;

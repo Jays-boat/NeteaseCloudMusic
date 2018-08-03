@@ -58,7 +58,6 @@ public class SongListActivity extends BaseActivity{
         setContentView(R.layout.activity_song_list);
         albumID = getIntent().getLongExtra("SongListId",-1);
         initLocalView();
-
         if (albumID == -1){
             ToastUtils.show("未获取到歌单具体内容:( 请重试");
             finish();
@@ -129,7 +128,7 @@ public class SongListActivity extends BaseActivity{
             }
             getMusicControlBinder().setMusicList(mSongList);
             getMusicControlBinder().playMusic(pos);
-            PlayingMusicActivity.actionStart(SongListActivity.this);
+            PlayingMusicActivity.actionStart(SongListActivity.this,mSongList,pos);
         });
         mRv.setAdapter(songListAdapter);
         mRv.setLayoutManager(new LinearLayoutManager(App.getAppContext()));
