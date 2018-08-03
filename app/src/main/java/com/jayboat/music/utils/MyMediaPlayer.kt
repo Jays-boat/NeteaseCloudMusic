@@ -57,4 +57,6 @@ class MyMediaPlayer : MediaPlayer() {
     fun isPause() = playStatusFlag == STATUS_PAUSE
 
     fun isStop() = playStatusFlag == STATUS_STOP
+
+    fun getFlag() = playStatusFlag
 }

@@ -118,6 +118,7 @@ class MusicPlayerService : Service() {
 
         fun getDuration() = mMediaPlayer.duration
 
+        fun getStatus() = mMediaPlayer.getFlag()
     }
 
     interface MusicPlayerListener {

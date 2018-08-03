@@ -14,6 +14,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +34,6 @@ import com.jayboat.music.bean.SongList;
 import com.jayboat.music.service.MusicPlayerService;
 import com.jayboat.music.ui.view.DiskImageView;
 import com.jayboat.music.utils.DensityUtils;
-import com.jayboat.music.utils.ThreadUtils;
 import com.jayboat.music.utils.ToastUtils;
 
 
@@ -71,6 +71,7 @@ public class PlayingMusicActivity extends BaseActivity implements View.OnClickLi
     private boolean bind;
     private boolean status;
 
+    private String TAG = "PlayingMusicActivity";
 
     @Override
     protected void onServiceConnected() {
@@ -138,7 +139,9 @@ public class PlayingMusicActivity extends BaseActivity implements View.OnClickLi
         int pos = (int) (progress * musicControlBinder.getDuration());
         mSeekBar.setProgress(pos);
         nowTime.setText(formatTime(pos));
-        if ((int)progress == 1) {
+        Log.v(TAG,musicControlBinder.getStatus()+" - "+
+                formatTime(pos)+" - "+formatTime(musicControlBinder.getDuration()));
+        if (formatTime(pos).equals(formatTime(musicControlBinder.getDuration()))) {
             position = position + 1;
             musicControlBinder.playMusic(position);
             getData(mSongs.get(position));
