@@ -118,8 +118,6 @@ class MusicPlayerService : Service() {
 
         fun getDuration() = mMediaPlayer.duration
 
-        fun getProcess() = mMediaPlayer.currentPosition
-
     }
 
     interface MusicPlayerListener {

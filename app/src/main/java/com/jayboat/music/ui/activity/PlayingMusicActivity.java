@@ -9,8 +9,6 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -35,10 +33,10 @@ import com.jayboat.music.bean.SongList;
 import com.jayboat.music.service.MusicPlayerService;
 import com.jayboat.music.ui.view.DiskImageView;
 import com.jayboat.music.utils.DensityUtils;
+import com.jayboat.music.utils.ThreadUtils;
 import com.jayboat.music.utils.ToastUtils;
 
 
-import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -64,11 +62,8 @@ public class PlayingMusicActivity extends BaseActivity implements View.OnClickLi
     private DiskImageView mDisk;
 
     private List<SongList.ResultBean.TracksBean> mSongs;
-    private SongList mSong;
     private List<SongList.ResultBean.TracksBean> originSongs;
     private MusicPlayerService.MusicControlBinder musicControlBinder;
-    private MyHandler handler = new MyHandler(this);
-    private SeekBarThread thread = new SeekBarThread();
 
     private int cycleOrder = 0;
     private int cycleStatus;
@@ -81,7 +76,6 @@ public class PlayingMusicActivity extends BaseActivity implements View.OnClickLi
     protected void onServiceConnected() {
         super.onServiceConnected();
         musicControlBinder = getMusicControlBinder();
-        musicControlBinder.setMusicList(mSong);
         bind = true;
         initMusicData();
     }
@@ -91,7 +85,7 @@ public class PlayingMusicActivity extends BaseActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playing_music);
         Intent intent = getIntent();
-        mSong = (SongList) intent.getSerializableExtra("music");
+        SongList mSong = (SongList) intent.getSerializableExtra("music");
         position = intent.getIntExtra("position", -1);
         DensityUtils.translucentStatusBar(getWindow());
 
@@ -123,7 +117,7 @@ public class PlayingMusicActivity extends BaseActivity implements View.OnClickLi
                         Drawable drawable = new BitmapDrawable(getResources(), blur);
                         drawable.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
                         mCtl.setBackground(drawable);
-                    }
+                        }
                 });
         StringBuilder info = new StringBuilder();
         info.append(mMusic.getName());
@@ -138,12 +132,23 @@ public class PlayingMusicActivity extends BaseActivity implements View.OnClickLi
         mDisk.playDisk();
     }
 
+    @Override
+    public void onProgressUpdate(float progress) {
+        super.onProgressUpdate(progress);
+        int pos = (int) (progress * musicControlBinder.getDuration());
+        mSeekBar.setProgress(pos);
+        nowTime.setText(formatTime(pos));
+        if ((int)progress == 1) {
+            position = position + 1;
+            musicControlBinder.playMusic(position);
+            getData(mSongs.get(position));
+            initMusicData();
+        }
+    }
+
     private void initMusicData() {
         totalTime.setText(formatTime(musicControlBinder.getDuration()));
-        nowTime.setText(formatTime(musicControlBinder.getProcess()));
         mSeekBar.setMax(musicControlBinder.getDuration());
-        // TODO: 2018/8/3 跟随音乐进度进度条滚动
-//        ……没注意到ThreadUtil otz，然后自己写的貌似还有点问题。
     }
 
     private void initLocalView() {
@@ -249,50 +254,5 @@ public class PlayingMusicActivity extends BaseActivity implements View.OnClickLi
         @SuppressLint("SimpleDateFormat")
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("mm:ss");
         return simpleDateFormat.format(date);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
-    class SeekBarThread extends Thread {
-        @Override
-        public void run() {
-            while (status) {
-                Message mes = Message.obtain();
-                mes.obj = musicControlBinder.getDuration();
-                mes.what = 1;
-                handler.handleMessage(mes);
-                try {
-                    // 每100毫秒更新一次位置
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }
-    }
-
-    private static class MyHandler extends Handler {
-        private final WeakReference<Activity> mActivityReference;
-
-        MyHandler(Activity activity) {
-            this.mActivityReference = new WeakReference<Activity>(activity);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            PlayingMusicActivity activity = (PlayingMusicActivity) mActivityReference.get();  //获取弱引用队列中的activity
-            switch (msg.what) {
-                case 1:
-                    int data = (int) msg.obj;
-                    activity.mSeekBar.setProgress(data);
-                    activity.nowTime.setText(activity.formatTime(data));
-                    break;
-            }
-        }
     }
 }
